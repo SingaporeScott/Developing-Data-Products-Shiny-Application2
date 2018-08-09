@@ -1,0 +1,68 @@
+---
+title: "Developing Data Products  Pitch"
+author: "Scott Fan"
+date: "09/08/2018"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(plotly)
+library(dplyr)
+library(jpeg)
+set.seed(0)
+usedcarsdat <- read.csv("https://www.engineeringbigdata.com/wp-content/uploads/usedcars.csv")
+link <- "https://cdn.images.autoexposure.co.uk/AETA52860/AETV98414245_1.jpg"
+download.file(link,'y.jpg', mode = 'wb')
+jj <- readJPEG("y.jpg",native=TRUE)
+##plot(0:1,0:1,type="n",ann=FALSE,axes=FALSE)
+##rasterImage(jj,0,0,1,1)
+```
+
+## Background
+
+Car-buyers have many options when it comes to buying cars. They can decide to buy a brand new car off the dealership or decide to purchase a car from the resale market. This Shiny application aids car buyers in purchasing used cars. There will be several criterias that car users can choose from. 
+
+This will draw data from the `usedcars` dataset available here. <https://www.engineeringbigdata.com/wp-content/uploads/usedcars.csv>
+
+## Features
+
+There will be a few features included to help car-buyers narrow down their choice. These include:
+
+- Price range (slider)
+- Mileage (slilder)
+- Transmission Type (option button)
+
+## Sample Output
+
+```{r choice}
+car_choice <- usedcarsdat[1,]
+car_choice
+##plot(0:1,0:1,type="n",ann=FALSE,axes=FALSE)
+##rasterImage(jj,0,0,1,1)
+```
+
+```{r plot, message=FALSE, warning = FALSE}
+thiscar <- usedcarsdat[1,3]
+last300price <- rnorm(n=300,-500,500) + thiscar
+last300time <- c(-299:0)
+last300price[300] = thiscar-1000
+last300 <- data.frame(Time=last300time, Price=last300price)
+x <- list(
+  title = "Time"
+)
+y <- list(
+  title = "Price"
+)
+p<- plot_ly(last300, x=last300$Time, y=last300$Price,mode = "lines") %>%
+  layout(xaxis = x, yaxis = y, width = 750, height = 300)
+
+p
+
+```
+
+## Thank You
+
+
+
